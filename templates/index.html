@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emissions Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-leaf header-icon"></i>
+                <h1>CO2 Emissions Predictor</h1>
+                <p>Predict vehicle CO2 emissions based on fuel consumption and type</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="prediction-section">
+                <div class="form-container">
+                    <h2><i class="fas fa-calculator"></i> Vehicle Information</h2>
+                    
+                    <form id="prediction-form" class="prediction-form">
+                        <div class="form-group">
+                            <label for="fuel-consumption">
+                                <i class="fas fa-gas-pump"></i>
+                                Fuel Consumption (L/100 km)
+                            </label>
+                            <input type="number" id="fuel-consumption" name="fuel_consumption" 
+                                   step="0.1" min="0" max="50" required>
+                            <div class="help-text">
+                                <i class="fas fa-info-circle"></i>
+                                How many liters of fuel per 100 kilometers (typical range: 4-20 L/100km)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fuel-efficiency">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Fuel Efficiency (mpg)
+                            </label>
+                            <input type="number" id="fuel-efficiency" name="fuel_efficiency" 
+                                   step="0.1" min="0" max="150" required>
+                            <div class="help-text">
+                                <i class="fas fa-info-circle"></i>
+                                Miles per gallon - higher is better (typical range: 15-50 mpg)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fuel-type">
+                                <i class="fas fa-oil-can"></i>
+                                Fuel Type
+                            </label>
+                            <select id="fuel-type" name="fuel_type" required>
+                                <option value="">Select fuel type...</option>
+                                {% for code, info in fuel_types.items() %}
+                                <option value="{{ code }}">{{ info.name }} - {{ info.description }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="help-text">
+                                <i class="fas fa-info-circle"></i>
+                                Choose the type of fuel your vehicle uses
+                            </div>
+                        </div>
+
+                        <button type="submit" class="predict-btn">
+                            <i class="fas fa-chart-line"></i>
+                            Predict CO2 Emissions
+                        </button>
+                    </form>
+                </div>
+
+                <div class="result-container" id="result-container">
+                    <div class="result-content" id="result-content">
+                        <!-- Results will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-question-circle"></i> How to Use</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-gas-pump"></i>
+                        <h3>Fuel Consumption</h3>
+                        <p>Enter your vehicle's fuel consumption in liters per 100 kilometers. You can find this in your vehicle's specifications or calculate it from your fuel usage.</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>Fuel Efficiency</h3>
+                        <p>Enter your vehicle's fuel efficiency in miles per gallon. This is the inverse of fuel consumption and shows how efficiently your vehicle uses fuel.</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-oil-can"></i>
+                        <h3>Fuel Type</h3>
+                        <p>Select the type of fuel your vehicle uses. Different fuels have different carbon contents and combustion characteristics.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fuel-types-section">
+                <h2><i class="fas fa-list"></i> Fuel Types Explained</h2>
+                <div class="fuel-types-grid">
+                    {% for code, info in fuel_types.items() %}
+                    <div class="fuel-type-card">
+                        <div class="fuel-type-header">
+                            <span class="fuel-code">{{ code }}</span>
+                            <h3>{{ info.name }}</h3>
+                        </div>
+                        <p>{{ info.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Developer Details Box -->
+            <div class="developer-section">
+                <div class="developer-box">
+                    <div class="developer-header">
+                        <i class="fas fa-code"></i>
+                        <h3>Developed By</h3>
+                    </div>
+                    <div class="developer-content">
+                        <div class="developer-name">
+                            <i class="fas fa-user"></i>
+                            <span>Deepak Singh</span>
+                        </div>
+                        <div class="developer-links">
+                            <a href="https://www.linkedin.com/in/deepaksinghai" class="social-link linkedin">
+                                <i class="fab fa-linkedin"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="https://github.com/CodeWithDks" class="social-link github">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="https://relaxed-trifle-359674.netlify.app" class="social-link portfolio">
+                                <i class="fas fa-globe"></i>
+                                <span>Portfolio</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 CO2 Emissions Predictor. Built with Machine Learning for Environmental Awareness.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
